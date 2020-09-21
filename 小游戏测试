@@ -1,0 +1,21 @@
+list1 = [n for n in range(1,29)] 
+#创建元素是1-28的列表，这是需要注意range(x,y)中y是取不到的
+print(list1)
+#验证一下列表元素
+
+def move(list,sep):
+    for n in range(sep):
+        item = list1.pop(0)
+        list1.append(item)
+#定义一个move函数作用：将每次循环列表前最开始得俩个数放到列表得最后
+
+count=0
+while len(list1) > 2:
+    count+=1
+    move(list1,2)
+    list1.pop(0)
+    print('第',count,'轮',list1)
+#while循环作用:在列表长度大于2时执行move函数并将移动后的列表中的第一个数进行删除即淘汰
+
+print('最后留下的:',list1) 
+#显示最后留下来的俩个元素
