@@ -1,0 +1,21 @@
+from urllib.request import urlopen, Request
+from bs4 import BeautifulSoup
+import re
+for x in range(0,250,25):
+    url=("https://movie.douban.com/top250?start="+str(x))+"&filter="
+    header = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}
+    ret = Request(url, headers=header)
+    html=urlopen(ret)
+    name1s=[]
+    bs = BeautifulSoup(html,'html.parser')
+    numbers=bs.find_all("em",{ "class":""})
+    names = bs.find_all("span",{"class":"title"})
+    scores = bs.find_all("span",{"class":"rating_num"})
+    for name in names:
+        name = name.get_text()
+        if name[1] !='/' :
+            name1s.append(name)
+    for number,name1,score in zip(numbers,name1s,scores,) :
+        number = number.get_text()
+        score = score.get_text()
+        print(number,name1,score)
