@@ -1,0 +1,28 @@
+from urllib.request import urlopen, Request
+from bs4 import BeautifulSoup
+import re
+#导入需要的包
+
+f = open('r.txt', 'w', encoding='utf-8')
+f.write('排名' + '电影名称' + '评分' + '\n')
+for x in range(0,250,25):
+    url=("https://movie.douban.com/top250?start="+str(x))+"&filter="    #遍历所有网页
+    header = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}
+    ret = Request(url, headers=header)
+    html=urlopen(ret)
+    bs = BeautifulSoup(html, 'html.parser')
+    numbers = bs.find_all("em", {"class": ""})            #找到电影排名
+    names = bs.find_all("span", {"class": "title"})       #找到电影名称
+    scores = bs.find_all("span", {"class": "rating_num"}) #找到电影评分
+
+    namelist = []
+    for name in names:
+        name=name.get_text()
+        if name[1] != '/':
+            namelist.append(name)                            #得到中文名电影
+    for name1,number,score in zip(namelist,numbers,scores):
+        score = score.get_text()
+        number = number.get_text()
+        f.write(number+name1+score+'\n')
+f.close
+
