@@ -1,0 +1,9 @@
+import pandas as pd 
+import random 
+import collections 
+df = pd.read_excel('C:\\Users\\Administrator\\Desktop\\数应191名单.xlsx') 
+data = collections.OrderedDict(zip(df.iloc[:,1],df.iloc[:,2])) 
+print(data) 
+f = int(input("请输入抽取的人数"))#老师输入抽取点名的人 
+a = random.sample(list(data.values()),f) 
+print(a) 
