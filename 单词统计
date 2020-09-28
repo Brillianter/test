@@ -1,0 +1,10 @@
+import string
+with open('Walden.txt','r',encoding='UTF-8') as fp:
+    words = fp.read().split()              #将文档里的字符串切片
+    list = [word.strip(string.punctuation).lower() for word in words] #把每个单词首尾连在一起的符号去掉，大写字母统一成小写
+    words_set = set(list)                   #去掉重复元素
+
+for i in words_set:                         #遍历去重后的元素，再在未去重的words里进行单词统计
+    sum = words.count(i)
+    dict={i:sum}
+    print(dict)
