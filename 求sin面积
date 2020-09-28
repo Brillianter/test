@@ -1,0 +1,12 @@
+import math
+n = 200
+width =2*math.pi/n          #将x区间分成100份，区间分的越小面积越接近真实值
+a =[]
+b =[]
+
+for i in range(n):
+	a.append(i*width)       #将取到的x值放入a列表中
+for i in a:
+	b.append(abs(math.sin(i)))  #求出x值对应的y值
+area = sum(b)*width            #将每一个小矩形的面积加起来
+print(area)
