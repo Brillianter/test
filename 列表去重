@@ -1,0 +1,13 @@
+#考虑到集合中的元素是不可以重复的，所以我们可以通过列表转化成集合来对列表进行去重
+list1=[1,7,4,2,3,4,4,4,5,7,]
+list2 = list(set(list1))
+print(list2)
+#缺点：去重后的list2中的元素是进行排序过的，改变了原先的顺序
+
+#用遍历循环可以使原先的顺序不改变
+list1=[1,7,4,2,3,4,4,4,5,7,]
+list2 = []
+for i in list1:
+    if not i in list2:
+        list2.append(i)
+print(list2)
