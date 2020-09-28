@@ -1,0 +1,12 @@
+list=[1,2,6,0.3,2,0.5,-1,2.4]
+i=0
+j=0
+
+while i < len(list)-1:            #遍历第一位到倒数第二位
+    while j < len(list)-i-1:      #遍历第一位至第（i-1）位
+        if list[j] > list[j+1]:   #将临近的元素进行比较，大的往后移，每次循环结束实现将最大的一位数放到了最后一位
+            list[j],list[j+1] = list[j+1],list[j]  #元素位置的转换，实现大的往后移
+        j=j+1
+    j=0
+    i=i+1
+print(list)
