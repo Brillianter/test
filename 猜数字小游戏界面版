@@ -57,7 +57,7 @@ def labelqval(vText):
     label_val_q.config(label_val_q,text = vText)
 
 root = tk.Tk(className="猜数字游戏")         #创建主窗口，名字为“猜数字游戏”
-root.geometry("400x90+200+200")            #设置主窗口的初始大小
+root.geometry("400x90+200+200")            #400x90设置主窗口的初始大小，+200 +200定义窗口弹出的默认位置
 label_val_q = tk.Label(root,width = "80")  #提示标签宽度设置
 label_val_q.pack(side = "top")             #把组件放在父组件的上面
 
