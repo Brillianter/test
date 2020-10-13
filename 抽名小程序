@@ -1,0 +1,32 @@
+import tkinter as tk     #导入图形界面接口库，将代码以小游戏界面显示
+import pandas as pd
+import random
+running = True
+
+'''
+绑定结束事件
+'''
+def eBtnClose(event):
+    root.destroy()
+    
+'''
+绑定开始事件，按下“开始”按钮后执行以下代码
+'''
+def eBtnGuess(event): 
+    name = list['张三','李四','王红','詹姆斯','科比','刘备','夏侯惇']
+    i = random.randint(0,len(name)-1)
+    lb.config(text=name[i],fg='red')
+    
+root = tk.Tk(className="抽名小程序")         #创建主窗口，名字为“猜数字游戏”
+root.geometry("400x400+200+200")            #400x90设置主窗口的初始大小，+200 +200定义窗口弹出的默认位置
+#label_name = tk.Label(root,text = "张三 李四 王红\n王五 张六 刘备")
+#label_name.place(x=50,y=50,height=250,width=250)
+btnGuess = tk.Button(root,text = "开始")     #插入按钮组件，名字为“猜”        
+btnGuess.bind('<Button-1>',eBtnGuess)
+btnGuess.place(x=100,y=350,height=30,width=40)
+btnClose = tk.Button(root,text = "暂停")    #插入按钮组件，名字为“关闭”
+btnClose.bind('<Button-1>',eBtnClose)
+btnClose.place(x=250,y=350,height=30,width=40)
+
+
+root.mainloop()
