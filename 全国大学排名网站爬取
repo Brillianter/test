@@ -1,0 +1,23 @@
+from urllib.request import urlopen, Request
+from bs4 import BeautifulSoup
+import re
+#导入需要的包
+
+url=("http://www.shanghairanking.cn/rankings/bcur/2020") #输入要爬取的网址
+header = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}  #以网站身份浏览网站
+ret = Request(url, headers=header)       #发出请求查看源代码
+html=urlopen(ret)                        #打开源代码
+bs = BeautifulSoup(html, 'html.parser')  #解释器
+
+i=1                                      #后面用于爬取前100所学校信息
+alls = bs.find_all('tr')                 #找出‘tr’标签
+#links = bs.find_all("td","a href")
+str=[]                                   #将每所学校的信息导入列表中
+for all in alls:
+    i+=1
+    if i <=103:
+        str.append(all.text)             #运用append导入信息
+s=str[1:]
+for i in s:
+    i = i.split()                        #对列表元素进行切片
+    print("{0:^10}\t{1:^10}\t{2:^10}\t{3:^10}\t{4:^10}".format(i[0],i[1],i[2],i[3],i[4],chr(12288)))  #运用制表符将排名放在第一列，名称在第二列，省市第三列，类型第四列，总分第五列
