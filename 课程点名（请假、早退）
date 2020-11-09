@@ -1,0 +1,137 @@
+# -*- coding: utf-8 -*-
+import pymysql
+import sys
+import tkinter as tk
+import tkinter.messagebox
+from tkinter import ttk
+
+
+class home():
+    def __init__(self):
+        '''
+        主界面
+        '''
+        self.window = tk.Tk()
+        self.window.title('简单课堂点名器')  # 窗口名
+        self.window.geometry('450x300')  # 窗口大小（长x宽） 乘为小x
+        self.window.resizable(False, False)  # 窗口不可放大
+        self.title_label = tk.Label(self.window, text='欢迎使用简单课堂点名器', font=('Arial', 14))
+        self.username_label = tk.Label(self.window, text='用户名')
+        self.password_label = tk.Label(self.window, text='密码')
+        self.username_text = tk.Entry(self.window)
+        self.password_text = tk.Entry(self.window, show='●')
+        self.login_button = tk.Button(self.window, text='登录', command=self.login)
+        self.register_button = tk.Button(self.window, text='注册', command=self.register)
+        self.exit_button = tk.Button(self.window, text='退出')
+
+        self.title_label.place(x=125, y=50)
+        self.username_label.place(x=120, y=100)
+        self.username_text.place(x=170, y=100)
+        self.password_label.place(x=120, y=140)
+        self.password_text.place(x=170, y=140)
+        self.login_button.place(x=170, y=180)
+        self.register_button.place(x=225, y=180)
+        self.exit_button.place(x=280, y=180)
+        self.window.mainloop()
+
+    def login(self):
+        '''
+        登录
+        '''
+        self.username = self.username_text.get()
+        self.password = self.password_text.get()
+
+        # 连接数据库
+        conn = pymysql.connect(host="localhost", port=3306, user="teacher", passwd="123456", db="roll_call_db")
+        try:
+            cursor = conn.cursor()
+            command1 = "use roll_call_db"
+            command2 = "select password from users where username = (%s)"
+            cursor.execute(command1)
+            result = cursor.execute(command2, (self.username))
+            if result == 0:
+                tk.messagebox.showerror('提示', "用户名不存在！")
+            else:
+                print('查找结果：', result)
+                if cursor.fetchone()[0] == self.password:
+                    tk.messagebox.showinfo('提示', "登录成功!")
+                    self.login_win = tk.Tk()
+                    self.login_win.title('简单课堂点名器——点名')
+                    self.login_win.geometry('450x300')
+                    self.login_win.resizable(False, False)
+                    self.choice = ttk.Combobox(self.login_win)
+                    self.choice['value'] = ('数应191')
+                    self.choice_class_label = tk.Label(self.login_win, text='请选择点名班级：', font=('Arial', 14))
+                    self.sure_button = tk.Button(self.login_win, text='确定', command=self.rollcall)
+                    self.return_button = tk.Button(self.login_win, text='返回')
+                    self.choice_class_label.place(x=120, y=50)
+                    self.choice.place(x=120, y=90)
+                    self.sure_button.place(x=190, y=140)
+                    self.return_button.place(x=240, y=140)
+                    self.window.destroy()
+                else:
+                    tk.messagebox.showerror('提示', "用户密码错误")
+            cursor.close()
+        except:
+            sys.exit()
+
+    def rollcall(self):
+        import roll_call4
+
+    def register(self):
+        '''
+        注册
+        '''
+        self.window.destroy()
+        self.reg_win = tk.Tk()
+        self.reg_win.title('简单课堂点名器——注册')
+        self.reg_win.geometry('450x300')
+        self.reg_win.resizable(False, False)
+        self.mainlabel = tk.Label(self.reg_win, text="注册", font=('Arial', 14))
+        self.user = tk.Label(self.reg_win, text='用户名')
+        self.pwd = tk.Label(self.reg_win, text='密码')
+        self.user_txt = tk.Entry(self.reg_win)
+        self.pwd_txt = tk.Entry(self.reg_win)
+        self.regButton = tk.Button(self.reg_win, text='确定', command=self.ensure)
+        self.clearButton = tk.Button(self.reg_win, text='清空', command=self.clear)
+        self.mainlabel.place(x=220, y=50)
+        self.user.place(x=120, y=100)
+        self.user_txt.place(x=170, y=100)
+        self.pwd.place(x=120, y=140)
+        self.pwd_txt.place(x=170, y=140)
+        self.regButton.place(x=225, y=180)
+        self.clearButton.place(x=280, y=180)
+
+    def ensure(self):
+        self.user_name = self.user_txt.get()
+        self.passwd = self.pwd_txt.get()
+        # 连接数据库
+        conn = pymysql.connect(host="localhost", port=3306, user="teacher", passwd="123456", db="roll_call_db")
+        # 使用cursor()方法获取操作游标
+        cursor = conn.cursor()
+        # SQL 插入语句
+        command3 = "INSERT INTO users(username, password) VALUES ('%s', '%s')" % (self.user_name, self.passwd)
+        try:
+            # 执行sql语句
+            cursor.execute(command3)
+            print("数据插入成功！")
+            tk.messagebox.showinfo(title='提示', message='注册成功！')
+            self.reg_win.destroy()
+            home()
+            # 提交到数据库执行
+            conn.commit()
+        except:
+            print("数据插入失败！")
+            tk.messagebox.showerror('提示', "注册失败！")
+            conn.rollback()
+        # 关闭数据库连接
+        conn.close()
+
+
+def clear(self):
+    self.user_txt.delete(0, tk.END)
+    self.pwd_txt.delete(0, tk.END)
+
+
+if __name__ == '__main__':
+    home()
