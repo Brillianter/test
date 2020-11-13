@@ -1,0 +1,70 @@
+#求两个数x，y中的大数
+package test01;
+import java.util.Scanner;
+public class mytest {
+public static void main (String[] args) {
+	Scanner scan = new Scanner(System.in);
+	int x = scan.nextInt();
+	int y = scan.nextInt();
+	if (x>y){
+			System.out.println(x);
+	}else if (x<y){
+			System.out.println(y);
+	}else{
+			System.out.println(x);
+			System.out.println(y);
+}
+}
+}
+
+
+
+#将两个数按先大后小输出。（不带else子句）
+package test01;
+import java.util.Scanner;
+public class mytest02 {
+public static void main (String[] args) {
+	Scanner scan = new Scanner(System.in);
+	int x = scan.nextInt();
+	int y = scan.nextInt();
+	if (x>y){
+			System.out.println(x);
+			System.out.println(y);
+	}else if (x<y){
+			System.out.println(y);
+			System.out.println(x);
+	}else{
+			System.out.println(x);
+			System.out.println(y);
+}
+}
+}
+
+
+#输入3个数，这3个数按大从到小的顺序输出
+package test01;
+import java.util.Scanner;
+public class mytest03 {
+public static void main (String[] args) {
+	Scanner scan = new Scanner(System.in);
+	int x = scan.nextInt();
+	int y = scan.nextInt();
+	int z = scan.nextInt();
+	if (x<y){
+		x=x ^ y;
+		y=x ^ y;
+		x=x ^ y;
+	}if (x<z){
+		x=x^z;
+		z=x^z;
+		x=x^z;
+	}if (y<z){
+		y=y^z;
+		z=z^y;
+		y=y^z;
+	System.out.println(x);
+	System.out.println(y);
+	System.out.println(z);
+}
+}
+}
