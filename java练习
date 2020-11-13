@@ -68,3 +68,24 @@ public static void main (String[] args) {
 }
 }
 }
+
+#输入三角形的三边长a，b，c，若能构成三角形，求三角形的面积，若不能构成三角形，输出“a，b，c不能构成三角形”
+package test01;
+import java.util.Scanner;
+public class mytest04 {
+	public static void main (String[] args) {
+		Scanner scan = new Scanner(System.in);
+		double x = scan.nextInt();
+		double y = scan.nextInt();
+		double z = scan.nextInt();
+		double p = (x+y+z)/2;
+		double s;
+	if (x+y>z&&x+z>y&&y+z>x){
+		s=Math.sqrt(p*(p-x)*(p-y)*(p-z))/4;
+		System.out.println("三角形面积为："+s);
+	}else{
+		System.out.println("构不成三角形");
+}
+}
+}
+
