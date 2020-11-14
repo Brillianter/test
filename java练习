@@ -89,3 +89,25 @@ public class mytest04 {
 }
 }
 
+
+#水仙花数是指一个3位数，它的每个位上的数字的3次幂之和等于它的本身。请编写一段代码找出水仙花数。
+package test01   #对应的包
+public class mytest01{
+    public static void main(String[] args){
+        int a;
+        int b;
+        int c;
+        int d;
+        int s = 1;
+        for(int i=100;i<=999;i=i+1){
+        a = i/100;      #得到百位数上的数
+        b = (i/10)%10;  #得到十位数上的数
+        c = i%10;       #得到个位数上的数  
+        d = a*a*a+b*b*b+c*c*c; 
+        if (d == i){
+            System.out.println("第"+s+"个水仙花数："+i);
+            s = s+1;
+        } 
+        }
+    }
+}
