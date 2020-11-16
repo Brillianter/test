@@ -43,7 +43,7 @@ class home():
 
         # 连接数据库
         conn = pymysql.connect(host='127.0.0.1', port=3306, user="root", passwd="123456", db="mysql",charset='utf8')
-        #pymql连接问题：1.pymysql配置问题 2.重启mysql
+        #pymql可能连接问题：1.pymysql配置问题 2.重启mysql
 
         '''
         host(str): MySQL服务器地址
