@@ -111,3 +111,18 @@ public class mytest01{
         }
     }
 }
+
+
+【案例1_3_11 】编写程序求100以内能被3整除但不能被7整除的数之和。
+package mytest01;
+public class mytest02 {
+	public static void main(String[] args){
+		int sum = 0;
+		for(int a=1;a<=100;a++){
+			if(a%3==0 && a%7!=0){
+				sum =sum + a;
+			}
+	}
+		System.out.println(sum);
+}
+}
