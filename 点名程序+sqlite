@@ -148,7 +148,7 @@ cursor = conn.cursor()
 conn.row_factory = db.Row
 cursor.execute("select * from students")
 rows = cursor.fetchall()
-sys.student.write("Content-type: text.html\r\n\r\n")
+sys.students.write("Content-type: text.html\r\n\r\n")
 sys.stdout.write("")
 sys.stdout.write("<html><body><p>")
 data = []
