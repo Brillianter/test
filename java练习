@@ -126,3 +126,24 @@ public class mytest02 {
 		System.out.println(sum);
 }
 }
+
+
+
+
+#输出打印等腰三角形
+package mytest01;
+public static void main(String[] args) {
+	// 定义总行数
+	int n = 4;
+	for(int i = 1; i <= n; i++){
+	
+		for(int j = 1;j <= n-i ; j++){
+				System.out.print(" ");
+		}
+		
+		for(int k = 1; k <= 2*i - 1; k++){
+			System.out.print("#");
+		}
+		System.out.println();
+	}
+}
