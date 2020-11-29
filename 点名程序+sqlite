@@ -8,53 +8,8 @@ import pandas as pd
 import pygame
 from tkinter import ttk
 import tkinter as Tkinter
-import cgi, os, sys
 import sqlite3 as db
 import collections
-
-
-'''
-主界面
-'''
-window = tk.Tk()
-window.title('课堂点名')  # 窗口名
-window.geometry('450x300')  # 窗口大小（长x宽） 乘为小x
-# window.resizable(False, False)  # 窗口不可放大
-title_label = tk.Label(window, text='课堂点名', font=('Arial', 14))  # 窗口标题
-number_label = tk.Label(window, text='学号')  # ‘用户名’标签
-name_label = tk.Label(window, text='姓名')  # ‘密码’标签
-class_label = tk.Label(window, text='班级')  # ‘班级’标签
-number_text = tk.Entry(window)  # 输入用户名
-name_text = tk.Entry(window)  # 输入密码
-class_text = tk.Entry(window)  # 输入班级
-
-
-'''创建数据库及数据表'''
-
-conn = sqlite3.connect('sign.db')  # 连接数据库,如果不存在则创建
-cursor = conn.cursor()  # 创建游标
-sql = '''create table if not exists students(
-        name text,
-        id int);
-        '''  # 在sqlite数据库中创建student数据表，列为name和id
-cursor.execute(sql)
-cursor.close()  # 关闭游标
-conn.commit()  # 执行命令
-conn.close()  # 关闭连接
-
-
-'''
-放置各个部件的位置
-'''
-title_label.place(x=185, y=50)
-number_label.place(x=120, y=100)
-number_text.place(x=170, y=100)
-name_label.place(x=120, y=140)
-name_text.place(x=170, y=140)
-class_label.place(x=120, y=180)
-class_text.place(x=170, y=180)
-
-
 
 '''
 提示学生签到成功与否
@@ -66,23 +21,23 @@ def prompt():
         messagebox.showinfo(title='提示', message='签到成功')
     else:
         messagebox.showinfo(title='提示', message='签到不成功')
-
-
-'''
-插入数据 
-'''
-def add_data():
+        
+'''创建数据库及数据表'''
+def create_table():
     student_number = int(number_text.get())
     student_name = name_text.get()
-    class_name = str(class_text())
+    class_name = str(class_text().get())
+    conn = sqlite3.connect('sign.db')  # 连接数据库,如果不存在则创建
+    cursor = conn.cursor()  # 创建游标
+    sql = '''create table if not exists students(
+            name text,
+            id int);
+            '''  # 在sqlite数据库中创建student数据表，列为name和id
+    cursor.execute(sql)
 
-
-def insert():
-    conn = sqlite3.connect('sign.db')
-    cursor = conn.cursor()
     while name_text.get() != ' ':
         '''insert语句 把一个新的行插入表中'''
-        sql = '''insert into students
+        sql = '''insert or replace into students
         (name,id)
         values
         (:student_name,:student_number)'''
@@ -92,23 +47,46 @@ def insert():
         cont = ('Another student?')
         if cont[0].lower() == 'n':
             break
-    cursor.close()
-
-
+    cursor.close()  # 关闭游标
+    conn.commit()  # 执行命令
+    conn.close()  # 关闭连接
+    window.destroy()
 '''
-创建按钮，触发事件
+主界面
 '''
-login_button = Button(window, text='签到', command=lambda: [prompt(),add_data(),insert()], width=10,
+if __name__ == '__main__': 
+    window = tk.Tk()
+    window.title('课堂点名')  # 窗口名
+    window.geometry('450x300')  # 窗口大小（长x宽） 乘为小x
+    # window.resizable(False, False)  # 窗口不可放大
+    title_label = tk.Label(window, text='课堂点名', font=('Arial', 14))  # 窗口标题
+    title_label.place(x=185, y=50)
+    number_label = tk.Label(window, text='学号')  # ‘用户名’标签
+    number_label.place(x=120, y=100)
+    number_text = tk.Entry(window)  # 输入学名
+    number_text.place(x=170, y=100)
+    name_label = tk.Label(window, text='姓名')  # ‘密码’标签
+    name_label.place(x=120, y=140)
+    name_text = tk.Entry(window)  # 输入密码
+    name_text.place(x=170, y=140)
+    class_label = tk.Label(window, text='班级')  # ‘班级’标签
+    class_label.place(x=120, y=180)
+    class_text = tk.Entry(window)  # 输入班级
+    class_text.place(x=170, y=180)
+   
+
+    '''
+    创建按钮，触发事件
+    '''
+    login_button = Button(window, text='签到', command=lambda: [prompt(),create_table()], width=10,
                       font=('仿宋', 10))
-# login_button = tk.Button(window, text='登录', command=lambda:[prompt(),add_data(),quire()], width=10, font=('仿宋', 10))
-# login_button = tk.Button(window, text='登录', command=lambda:add_data())
-exit_button = Button(window, text='退出', command=window.quit, width=10, font=('仿宋', 10))
-login_button.place(x=150, y=220)
-exit_button.place(x=250, y=220)
-# number_text.bind('Return',prompt)
-# login_button.bind('Return',prompt)
-# exit_button.bind('Return',prompt)
-window.mainloop()
+    exit_button = Button(window, text='退出', command=window.quit, width=10, font=('仿宋', 10))
+    login_button.place(x=150, y=220)
+    exit_button.place(x=250, y=220)
+    number_text.bind('Return',prompt)
+    login_button.bind('Return',prompt)
+    exit_button.bind('Return',prompt)
+    window.mainloop()
 
 import tkinter as tk
 import tkinter as Tkinter
