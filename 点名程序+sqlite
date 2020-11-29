@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
-# import tkinter.messagebox
+import tkinter.messagebox
 from tkinter.messagebox import *
 import sqlite3
 import tkinter as tk
-# import pandas as pd
-# import pygame
-# from tkinter import ttk
-# import tkinter as Tkinter
+import pandas as pd
+import pygame
+from tkinter import ttk
+import tkinter as Tkinter
 import cgi, os, sys
 import sqlite3 as db
 import collections
@@ -27,11 +27,10 @@ class_label = tk.Label(window, text='班级')  # ‘班级’标签
 number_text = tk.Entry(window)  # 输入用户名
 name_text = tk.Entry(window)  # 输入密码
 class_text = tk.Entry(window)  # 输入班级
-# login_button = tk.Button(window, text='登录', command=login)
-# exit_button = tk.Button(window, text='退出')
+
 
 '''创建数据库及数据表'''
-# def create_table():
+
 conn = sqlite3.connect('sign.db')  # 连接数据库,如果不存在则创建
 cursor = conn.cursor()  # 创建游标
 sql = '''create table if not exists students(
@@ -42,7 +41,7 @@ cursor.execute(sql)
 cursor.close()  # 关闭游标
 conn.commit()  # 执行命令
 conn.close()  # 关闭连接
-# window.destroy()
+
 
 '''
 放置各个部件的位置
@@ -54,7 +53,7 @@ name_label.place(x=120, y=140)
 name_text.place(x=170, y=140)
 class_label.place(x=120, y=180)
 class_text.place(x=170, y=180)
-# window.mainloop()
+
 
 
 '''
@@ -78,18 +77,6 @@ def add_data():
     class_name = str(class_text())
 
 
-#     conn = sqlite.connect('sign.db')  #连接数据库,如果不存在则创建
-#     cursor = conn.cursor()   #创建游标
-#     sql = '''create table students(
-#         name text,
-#         id int)'''      #在sqlite数据库中创建student数据表，列为name和id
-#     cursor.execute(sql)
-#     cursor.execute('insert or replace into' + class_name +'(id,name) values (?,?)',(number,name))#添加数据
-#     cursor.close()  #关闭游标
-#     conn.commit()   #执行命令
-#     conn.close()    #关闭连接
-#     window.destroy()
-
 def insert():
     conn = sqlite3.connect('sign.db')
     cursor = conn.cursor()
@@ -111,7 +98,7 @@ def insert():
 '''
 创建按钮，触发事件
 '''
-login_button = Button(window, text='签到', command=lambda: [create_table(),prompt(),add_data(),insert()], width=10,
+login_button = Button(window, text='签到', command=lambda: [prompt(),add_data(),insert()], width=10,
                       font=('仿宋', 10))
 # login_button = tk.Button(window, text='登录', command=lambda:[prompt(),add_data(),quire()], width=10, font=('仿宋', 10))
 # login_button = tk.Button(window, text='登录', command=lambda:add_data())
@@ -123,3 +110,95 @@ exit_button.place(x=250, y=220)
 # exit_button.bind('Return',prompt)
 window.mainloop()
 
+import tkinter as tk
+import tkinter as Tkinter
+from tkinter import *
+import tkinter.messagebox
+import random
+import pandas as pd
+import pygame
+
+import cgi, os, sys
+import sqlite3 as db
+conn = db.connect('sign.db')
+cursor = conn.cursor()
+conn.row_factory = db.Row
+cursor.execute("select * from students")
+rows = cursor.fetchall()
+sys.stdout.write("Content-type: text.html\r\n\r\n")
+sys.stdout.write("")
+sys.stdout.write("<html><body><p>")
+data = []
+for row in rows:
+    data.append(row)
+    sys.stdout.write("%s %s" % (row[0], row[1]))
+    sys.stdout.write("<br />")
+sys.stdout.write("</p></body></html>")
+print(data)
+
+going = True  # 表示是否可以继续滚动(递归)显示下一个名额
+is_run = False  # 表示当前抽奖器是否在运行
+
+
+def lottery_roll(var1):
+    global going
+    show_member = random.choice(data)  # 随机选取姓名
+    var1.set(show_member)  # var1 显示抽取出来的姓名
+    if going:  # going=True
+        window.after(50, lottery_roll, var1)  # 每50毫秒循环一次
+    else:  # going=False
+        result = tkinter.messagebox.showinfo(title='最终结果！', message='恭喜 {} ！！！'.format(show_member))  # 弹窗显示恭喜+抽取出来的姓名
+        going = True
+        return  # 跳出def
+
+
+'''
+开始
+'''
+def lottery_start(var1):
+    global is_run
+    if is_run:  # is_run = True
+        return  # 跳出def
+
+    is_run = True
+    file = r'C:/Users/mac/Desktop/无词.mp3'  # 音乐的路径
+    pygame.mixer.init()  # 初始化
+    track = pygame.mixer.music.load(file)  # 加载音乐文件
+    # pygame.mixer.music.play()
+    pygame.mixer.music.play(-1)  # 开始播放音乐流
+    pygame.mixer.music.set_volume(0.4)  # 控制音乐声音的大小
+    lottery_roll(var1)  # 执行循环抽取姓名的执行语句
+
+
+'''
+结束
+'''
+def lottery_end():
+    global going, is_run
+    if is_run:
+        pygame.mixer.music.stop()
+        going = False
+        is_run = False
+
+
+if __name__ == '__main__':  # 如果模块是被直接运行的，则代码块被运行，如果模块是被导入的，则代码块不被运行。
+    window = Tkinter.Tk()
+    window.title('点名程序：')
+    window.geometry('405x320+250+15')
+    bg_label = Label(window, width=70, height=24)
+    bg_label.place(anchor=NW, x=0, y=0)
+
+    var1 = StringVar(value='即 将 开 始')
+    show_label1 = Label(window, textvariable=var1, justify='left', anchor=CENTER, width=17, height=3,
+                        font='楷体 -40 bold', foreground='black')
+    show_label1.place(anchor=NW, x=21, y=20)
+
+    button1 = Button(window, text='开始', command=lambda: lottery_start(var1), width=14, height=2, bg='#A8A8A8',
+                     font='宋体 -18 bold')
+    button1.place(anchor=NW, x=20, y=175)
+
+    button2 = Button(window, text='结束', command=lambda: lottery_end(), width=14, height=2, bg='#A8A8A8',
+                     font='宋体 -18 bold')
+    button2.place(anchor=NW, x=232, y=175)
+
+    window.mainloop()
