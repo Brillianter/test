@@ -31,17 +31,17 @@ class_text = tk.Entry(window)  # 输入班级
 # exit_button = tk.Button(window, text='退出')
 
 '''创建数据库及数据表'''
-def create_table():
-    conn = sqlite3.connect('sign.db')  # 连接数据库,如果不存在则创建
-    cursor = conn.cursor()  # 创建游标
-    try:
-        sql = '''create table if not exists students(
-            name text,
-            id int)'''  # 在sqlite数据库中创建student数据表，列为name和id
-        cursor.execute(sql)
-    cursor.close()  # 关闭游标
-    conn.commit()  # 执行命令
-    conn.close()  # 关闭连接
+# def create_table():
+conn = sqlite3.connect('sign.db')  # 连接数据库,如果不存在则创建
+cursor = conn.cursor()  # 创建游标
+sql = '''create table if not exists students(
+        name text,
+        id int);
+        '''  # 在sqlite数据库中创建student数据表，列为name和id
+cursor.execute(sql)
+cursor.close()  # 关闭游标
+conn.commit()  # 执行命令
+conn.close()  # 关闭连接
 # window.destroy()
 
 '''
