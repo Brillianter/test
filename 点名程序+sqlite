@@ -1,92 +1,95 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
-import tkinter.messagebox
-from tkinter.messagebox import *
+from tkinter import messagebox
 import sqlite3
-import tkinter as tk
-import pandas as pd
-import pygame
-from tkinter import ttk
-import tkinter as Tkinter
-import sqlite3 as db
-import collections
 
 '''
 提示学生签到成功与否
 '''
+
+
 def prompt():
     student_number = int(number_text.get())
     student_name = name_text.get()
     if student_number != '' and student_name != '':
-        messagebox.showinfo(title='提示', message='签到成功')
+        messagebox.showinfo(title='提示:', message='签到成功')
     else:
-        messagebox.showinfo(title='提示', message='签到不成功')
-        
+        messagebox.showinfo(title='提示:', message='签到不成功')
+
+
 '''创建数据库及数据表'''
+
+
 def create_table():
+    global class_name
     student_number = int(number_text.get())
     student_name = name_text.get()
-    class_name = str(class_text().get())
+    class_name = class_text.get()
     conn = sqlite3.connect('sign.db')  # 连接数据库,如果不存在则创建
+    print("数据库建立成功")
     cursor = conn.cursor()  # 创建游标
-    sql = '''create table if not exists students(
-            name text,
-            id int);
-            '''  # 在sqlite数据库中创建student数据表，列为name和id
+    sql = 'create table if not exists ' + class_name + '(id int primary key not null, name text)'
     cursor.execute(sql)
-
-    while name_text.get() != ' ':
-        '''insert语句 把一个新的行插入表中'''
-        sql = '''insert or replace into students
-        (name,id)
-        values
-        (:student_name,:student_number)'''
-        # 把数据保存到student_name,student_number中
-        cursor.execute(sql, {'student_name': name, 'student_number': id})
-        conn.commit()
-        cont = ('Another student?')
-        if cont[0].lower() == 'n':
-            break
+    print("数据表建立成功")
+    cursor.execute('insert or replace into ' + class_name + '(id,name) values (?,?)', (student_name, student_number))
+    print("插入数据成功")
     cursor.close()  # 关闭游标
     conn.commit()  # 执行命令
     conn.close()  # 关闭连接
     window.destroy()
+
+
 '''
 主界面
 '''
-if __name__ == '__main__': 
-    window = tk.Tk()
-    window.title('课堂点名')  # 窗口名
+if __name__ == '__main__':
+    window = Tk()
+    window.title('签到')  # 窗口名
     window.geometry('450x300')  # 窗口大小（长x宽） 乘为小x
-    # window.resizable(False, False)  # 窗口不可放大
-    title_label = tk.Label(window, text='课堂点名', font=('Arial', 14))  # 窗口标题
+    title_label = Label(window, text='课堂签到', font=('Arial', 14))  # 窗口标题
     title_label.place(x=185, y=50)
-    number_label = tk.Label(window, text='学号')  # ‘用户名’标签
+    number_label = Label(window, text='学号')  # ‘用户名’标签
     number_label.place(x=120, y=100)
-    number_text = tk.Entry(window)  # 输入学名
+    number_text = Entry(window)  # 输入学名
     number_text.place(x=170, y=100)
-    name_label = tk.Label(window, text='姓名')  # ‘密码’标签
+    name_label = Label(window, text='姓名')  # ‘密码’标签
     name_label.place(x=120, y=140)
-    name_text = tk.Entry(window)  # 输入密码
+    name_text = Entry(window)  # 输入密码
     name_text.place(x=170, y=140)
-    class_label = tk.Label(window, text='班级')  # ‘班级’标签
+    class_label = Label(window, text='班级')  # ‘班级’标签
     class_label.place(x=120, y=180)
-    class_text = tk.Entry(window)  # 输入班级
+    class_text = Entry(window)  # 输入班级
     class_text.place(x=170, y=180)
-   
 
     '''
     创建按钮，触发事件
     '''
-    login_button = Button(window, text='签到', command=lambda: [prompt(),create_table()], width=10,
-                      font=('仿宋', 10))
-    exit_button = Button(window, text='退出', command=window.quit, width=10, font=('仿宋', 10))
+    login_button = Button(window, text='签到', command=lambda: [prompt(), create_table()], width=10,
+                          font=('仿宋', 10))
     login_button.place(x=150, y=220)
+    exit_button = Button(window, text='退出', command=window.quit, width=10, font=('仿宋', 10))
     exit_button.place(x=250, y=220)
-    number_text.bind('Return',prompt)
-    login_button.bind('Return',prompt)
-    exit_button.bind('Return',prompt)
+    number_text.bind('Return', prompt)
+    login_button.bind('Return', prompt)
+    exit_button.bind('Return', prompt)
     window.mainloop()
+
+
+
+
+# 查询数据
+sql = "select * from 数应191"
+conn = sqlite3.connect('sign.db')
+# 创建游标
+cursor = conn.cursor()
+values = cursor.execute(sql)
+for i in values:
+    print(i)
+
+
+
+
+
 
 import tkinter as tk
 import tkinter as Tkinter
@@ -101,7 +104,7 @@ import sqlite3 as db
 conn = db.connect('sign.db')
 cursor = conn.cursor()
 conn.row_factory = db.Row
-cursor.execute("select * from students")
+cursor.execute("select * from 数应191")
 rows = cursor.fetchall()
 sys.stdout.write("Content-type: text.html\r\n\r\n")
 sys.stdout.write("")
