@@ -134,21 +134,23 @@ public class mytest02 {
 
 
 #输出打印等腰三角形
-package mytest01;
-public static void main(String[] args) {
+package test1;
+public class test1{
+	public static void main(String[] args) {
 	// 定义总行数
-	int n = 4;
-	for(int i = 1; i <= n; i++){
+		int n = 4;
+		for(int i = 1; i <= n; i++){
 	
-		for(int j = 1;j <= n-i ; j++){
-			System.out.print(" ");
+			for(int j = 1;j <= n-i ; j++){
+				System.out.print(" ");
 		}
 		
-		for(int k = 1; k <= 2*i - 1; k++){
-			System.out.print("#");
+			for(int k = 1; k <= 2*i - 1; k++){
+				System.out.print("#");
 		}
-		System.out.println();
+			System.out.println();
 	}
+}
 }
 
 题目：判断101-200之间有多少个素数，并输出所有素数。
