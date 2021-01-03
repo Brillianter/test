@@ -42,32 +42,35 @@ public static void main (String[] args) {
 
 
 #输入3个数，这3个数按大从到小的顺序输出
-package test01;
+package test1;
 import java.util.Scanner;
-public class mytest03 {
+public class test1 {
 public static void main (String[] args) {
 	Scanner scan = new Scanner(System.in);
 	int x = scan.nextInt();
 	int y = scan.nextInt();
 	int z = scan.nextInt();
+	int a = 0;
 	if (x<y){
-		x=x ^ y;
-		y=x ^ y;
-		x=x ^ y;
+		a=x;
+		x=y;
+		y=a;
+		
 	}if (x<z){
-		x=x^z;
-		z=x^z;
-		x=x^z;
+		a=x;
+		x=z;
+		z=a;
 	}if (y<z){
-		y=y^z;
-		z=z^y;
-		y=y^z;
+		a=y;
+		y=z;
+		z=a;
 	System.out.println(x);
 	System.out.println(y);
 	System.out.println(z);
 }
 }
 }
+
 
 #输入三角形的三边长a，b，c，若能构成三角形，求三角形的面积，若不能构成三角形，输出“a，b，c不能构成三角形”
 package test01;
