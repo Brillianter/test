@@ -362,32 +362,32 @@ public class test1{
 }
 }
 
-题目：输入两个正整数m和n，求其最大公约数
-package test1;
+题目：输入两个正整数m和n，求其最大公约数、最小公倍数
+package test1  ;
+
 import java.util.Scanner;
+
 public class test1{
-	public static void main(String[] args){
-		Scanner scan = new Scanner(System.in);
-		System.out.println("请输入第一个整数:");
-		int a = scan.nextInt();
-		System.out.println("请输入第二个整数:");
-		int b = scan.nextInt();
-		Gongyueshu(a,b);
-}
-	public static void Gongyueshu(int a,int b){
-		int x=0,y=0,i=0,j=0;
-		i=a;
-		j=b;
-		if (a<b){
-			x=a;
-			a=b;
-			b=x;
-		}
-		while(b != 0){
-			y=a%b;
-			a=b;
-			b=y;
-		}
-		System.out.println(i+"和"+j+"最大公约数为:"+a);
-	}
+    	public static void main(String[] args){
+    		Scanner scan=new Scanner(System.in);
+    		int m = scan.nextInt();
+    		int n = scan.nextInt();
+    		int i =m;
+    		int j =n;
+    		int x=0,y=0;
+    		if (m<n){
+    			x=m;
+    			m=n;
+    			n=x;
+    		}
+    		while(m%n!=0){
+    			y=m%n;
+    			m=n;
+    			n=y;
+    		}
+    		int k=i*j/n;
+    		System.out.println("最大公约数为:"+n);
+    		System.out.println("最小公倍数为:"+k);
+    		
+    }
 }
